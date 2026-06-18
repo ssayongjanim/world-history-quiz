@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세계사 기말고사 대비 - 문제풀이</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌍 세계사 기말고사 대비</h1>
+            <p>고2 1학기 기말고사 범위</p>
+        </header>
+
+        <nav class="navbar">
+            <button class="nav-btn active" data-page="home">홈</button>
+            <button class="nav-btn" data-page="quiz">문제풀이</button>
+            <button class="nav-btn" data-page="review">복습하기</button>
+            <button class="nav-btn" data-page="stats">성적분석</button>
+        </nav>
+
+        <!-- 홈 페이지 -->
+        <div id="home" class="page active">
+            <section class="welcome">
+                <h2>📚 세계사 기말고사 대비 웹사이트에 오신 것을 환영합니다!</h2>
+                <p>6개 단원의 범위에서 객관식 문제를 풀고 실력을 확인해보세요.</p>
+            </section>
+
+            <section class="units-overview">
+                <h3>📖 학습 단원</h3>
+                <div class="units-grid">
+                    <div class="unit-card" data-unit="1">
+                        <h4>1단원</h4>
+                        <p>명·청·임·이슬람·무굴·오스만</p>
+                    </div>
+                    <div class="unit-card" data-unit="2">
+                        <h4>2단원</h4>
+                        <p>근대 유럽 혁명과 변화</p>
+                    </div>
+                    <div class="unit-card" data-unit="3">
+                        <h4>3단원</h4>
+                        <p>산업혁명과 제국주의</p>
+                    </div>
+                    <div class="unit-card" data-unit="4">
+                        <h4>4단원</h4>
+                        <p>동양의 근대화</p>
+                    </div>
+                    <div class="unit-card" data-unit="5">
+                        <h4>5단원</h4>
+                        <p>세계대전과 혁명</p>
+                    </div>
+                    <div class="unit-card" data-unit="6">
+                        <h4>6단원</h4>
+                        <p>냉전과 탈냉전</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="quick-start">
+                <h3>⚡ 시작하기</h3>
+                <button class="btn btn-primary" onclick="switchPage('quiz')">모든 단원 풀기</button>
+                <button class="btn btn-secondary" onclick="showUnitSelection()">특정 단원 선택해서 풀기</button>
+            </section>
+        </div>
+
+        <!-- 문제풀이 페이지 -->
+        <div id="quiz" class="page">
+            <section class="quiz-setup">
+                <h2>📝 단원 선택</h2>
+                <div class="unit-selector">
+                    <p>풀 단원을 선택하세요 (복수 선택 가능):</p>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" class="unit-checkbox" value="1" checked> 1단원</label>
+                        <label><input type="checkbox" class="unit-checkbox" value="2" checked> 2단원</label>
+                        <label><input type="checkbox" class="unit-checkbox" value="3" checked> 3단원</label>
+                        <label><input type="checkbox" class="unit-checkbox" value="4" checked> 4단원</label>
+                        <label><input type="checkbox" class="unit-checkbox" value="5" checked> 5단원</label>
+                        <label><input type="checkbox" class="unit-checkbox" value="6" checked> 6단원</label>
+                    </div>
+                    <button class="btn btn-primary" onclick="startQuiz()">시작하기</button>
+                </div>
+            </section>
+
+            <section id="quiz-container" class="quiz-container hidden">
+                <div class="quiz-header">
+                    <div class="progress">
+                        <span id="current-question">0</span> / <span id="total-questions">0</span>
+                    </div>
+                    <div class="timer" id="timer"></div>
+                </div>
+
+                <div class="question-section">
+                    <h3 id="question-text"></h3>
+                    <div id="options" class="options"></div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="toggleBookmark()">⭐ 북마크</button>
+                    <button class="btn btn-primary" onclick="nextQuestion()">다음</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- 복습하기 페이지 -->
+        <div id="review" class="page">
+            <h2>🔖 복습하기 (북마크된 문제)</h2>
+            <div id="bookmarked-questions" class="questions-list"></div>
+        </div>
+
+        <!-- 성적분석 페이지 -->
+        <div id="stats" class="page">
+            <h2>📊 성적 분석</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>전체 정답률</h3>
+                    <div class="stat-value" id="overall-rate">0%</div>
+                </div>
+                <div class="stat-card">
+                    <h3>푼 문제 수</h3>
+                    <div class="stat-value" id="total-solved">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>정답 수</h3>
+                    <div class="stat-value" id="correct-count">0</div>
+                </div>
+            </div>
+
+            <div class="unit-stats">
+                <h3>📈 단원별 정답률</h3>
+                <div id="unit-stats-list"></div>
+            </div>
+        </div>
+
+        <!-- 정답 확인 모달 -->
+        <div id="answer-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>답 확인</h3>
+                <div id="modal-body"></div>
+                <button class="btn btn-primary" onclick="closeModal()">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
